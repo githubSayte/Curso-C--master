@@ -91,15 +91,15 @@ namespace Curso_C_
     public class Usuario
     {
         // Atributos privados
-        private string nome;
-        private string cpf;
+        public string Nome;
+        public string Cpf;
         private List<Livro> livrosEmprestados = new List<Livro>();
 
         // Construtor
         public Usuario(string nome, string cpf)
         {
-            this.nome = nome;
-            this.cpf = cpf;
+            this.Nome = nome;
+            this.Cpf = cpf;
         }
 
         // Método para emprestar um livro
@@ -110,7 +110,7 @@ namespace Curso_C_
             {
                 livrosEmprestados.Add(livroEmprestado);
                 biblioteca.RemoverLivro(livroEmprestado);
-                Console.WriteLine($"{nome} emprestou o livro '{livro.Titulo}'.");
+                Console.WriteLine($"{Nome} emprestou o livro '{livro.Titulo}'.");
             }
         }
 
@@ -121,14 +121,14 @@ namespace Curso_C_
             {
                 livrosEmprestados.Remove(livro);
                 biblioteca.AdicionarLivro(livro);
-                Console.WriteLine($"{nome} devolveu o livro '{livro.Titulo}'.");
+                Console.WriteLine($"{Nome} devolveu o livro '{livro.Titulo}'.");
             }
         }
 
         // Método para exibir livros emprestados
         public void ExibirLivrosEmprestados()
         {
-            Console.WriteLine($"Livros emprestados por {nome}:");
+            Console.WriteLine($"Livros emprestados por {Nome}:");
             foreach (var livro in livrosEmprestados)
             {
                 livro.ExibirDetalhes();

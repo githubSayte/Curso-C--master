@@ -41,3 +41,7 @@ C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\bin\Debug\net8.0
 C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\bin\Debug\net8.0\Curso CSharp.pdb
 C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\obj\Debug\net8.0\Curso CSharp.genruntimeconfig.cache
 C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\obj\Debug\net8.0\ref\Curso CSharp.dll
+C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\obj\Debug\net8.0\Curso CSharp.sourcelink.json
+C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\obj\Debug\net8.0\Curso CSharp.csproj.AssemblyReference.cache
+C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\obj\Debug\net8.0\Curso CS.C9F6DD56.Up2Date

@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\onedrive\\\u00E1rea de trabalho\\curso-c--master\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\onedrive\\\u00E1rea de trabalho\\curso-c--master\\dados.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:dados.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\onedrive\\\u00E1rea de trabalho\\curso-c--master\\paradigmasoo\\10-polimorfismo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:paradigmasoo\\10-polimorfismo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\onedrive\\\u00E1rea de trabalho\\curso-c--master\\26-gerenciamentovendas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:26-gerenciamentovendas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|c:\\users\\aluno noite\\onedrive\\\u00E1rea de trabalho\\curso-c--master\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A73037-2A69-412E-B3B0-57439C9FA53B}|Curso CSharp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "10-Polimorfismo.cs",
-              "DocumentMoniker": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\ParadigmasOO\\10-Polimorfismo.cs",
-              "RelativeDocumentMoniker": "ParadigmasOO\\10-Polimorfismo.cs",
-              "ToolTip": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\ParadigmasOO\\10-Polimorfismo.cs",
-              "RelativeToolTip": "ParadigmasOO\\10-Polimorfismo.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAgwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-12T13:59:00.982Z",
+              "DocumentIndex": 0,
+              "Title": "dados.json",
+              "DocumentMoniker": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\dados.json",
+              "RelativeDocumentMoniker": "dados.json",
+              "ToolTip": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\dados.json",
+              "RelativeToolTip": "dados.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-16T14:46:41.693Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAIEBAAAAAAAAAAAIwJEBAAAfAAAA",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAcwEUBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-12T12:36:26.356Z",
+              "WhenOpened": "2024-09-16T12:00:48.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "26-GerenciamentoVendas.cs",
+              "DocumentMoniker": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\26-GerenciamentoVendas.cs",
+              "RelativeDocumentMoniker": "26-GerenciamentoVendas.cs",
+              "ToolTip": "C:\\Users\\Aluno Noite\\OneDrive\\\u00C1rea de Trabalho\\Curso-C--master\\26-GerenciamentoVendas.cs",
+              "RelativeToolTip": "26-GerenciamentoVendas.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-16T12:00:13.861Z",
               "EditorCaption": ""
             }
           ]
