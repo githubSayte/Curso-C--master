@@ -12,6 +12,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties dados_1json__JsonSchema="https://api.app-prg1.zerops.io/api/rest/public/settings/zerops-yml-json-schema.json" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
