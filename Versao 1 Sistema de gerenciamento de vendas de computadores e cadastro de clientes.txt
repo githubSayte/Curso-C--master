@@ -1,4 +1,3 @@
-﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +8,6 @@ namespace SistemaGerenciamento
 {
     class Program
     {
-        // Listas e IDs
         static List<Computador> computadores = new List<Computador>();
         static List<Cliente> clientes = new List<Cliente>();
         static List<Venda> vendas = new List<Venda>();
@@ -17,40 +15,33 @@ namespace SistemaGerenciamento
         static int proximoIdCliente = 1;
         static int proximoIdVenda = 1;
 
-        // Caminhos dos arquivos
-        static string caminhoComputadores = @"C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\computadores.json";
-        static string caminhoClientes = @"C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\clientes.json";
-        static string caminhoVendas = @"C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\vendas.json";
-        static string caminhoConfig = @"C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\config.json";
-
         static void Main(string[] args)
         {
-            // Carregar as configurações
-            Config config = CarregarConfig(caminhoConfig);
+            string caminhoComputadores = @"C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\computadores.json";
+            string caminhoClientes = @"C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\clientes.json";
+            string caminhoVendas = @"C:\Users\Aluno Noite\OneDrive\Área de Trabalho\Curso-C--master\vendas.json";
 
-            // Carregar os dados necessários
             CarregarDados(caminhoComputadores, caminhoClientes, caminhoVendas);
 
             int opcao;
             do
             {
+
                 // Limpa a tela
                 Console.Clear();
-
                 // Atualiza a hora e data do sistema em tempo real
                 string horaAtual = DateTime.Now.ToString("HH:mm:ss");
                 string dataAtual = DateTime.Now.ToString("dd/MM/yyyy");
-
                 // Cabeçalho do sistema com hora e data atualizadas
                 Console.WriteLine("===================================================================================================");
-                Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ============");
+                Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==============");
                 Console.WriteLine("===================================================================================================");
                 Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==============");
-                Console.WriteLine($"========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: {config.DataUltimaAtualizacao,-30} ==============");
-                Console.WriteLine($"========= VERSÃO DO SISTEMA: {config.Versao,-42} ==============");
-                Console.WriteLine($"========= HORA E DATA DE ACESSO: {horaAtual,-19} DE {dataAtual,-14} ==============");
-                Console.WriteLine($"========= HORA: {horaAtual,-43} ==============");
-                Console.WriteLine($"========= DATA: {dataAtual,-43} ==============");
+                Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==============");
+                Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==============");
+                Console.WriteLine($"========= HORA E DATA DE ACESSO: {horaAtual} DE {dataAtual}                         ==============");
+                Console.WriteLine($"========= HORA: {horaAtual}                                                         ==============");
+                Console.WriteLine($"========= DATA: {dataAtual}                                                         ==============");
                 Console.WriteLine("===================================================================================================");
                 Console.WriteLine();
                 Console.WriteLine("===================================================================================================");
@@ -86,41 +77,8 @@ namespace SistemaGerenciamento
                 }
             } while (opcao != 0);
         }
-
-        static Config CarregarConfig(string caminho)
-        {
-            // Lê o arquivo JSON e desserializa em um objeto Config
-            string json = File.ReadAllText(caminho);
-            return JsonConvert.DeserializeObject<Config>(json);
-        }
-
-        // Método para carregar os dados
-        static void CarregarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
-        {
-            // Implementação para carregar dados dos arquivos JSON
-        }
-
-        // Métodos para gerenciamento dos dados
-        static void MenuComputadores() { /* Implementação */ }
-        static void MenuClientes() { /* Implementação */ }
-        static void MenuVendas() { /* Implementação */ }
-
-        // Método para salvar dados
-        static void SalvarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
-        {
-            // Implementação para salvar dados nos arquivos JSON
-        }
-
-        // Classe para armazenar as configurações
-        class Config
-        {
-            public string Versao { get; set; }
-            public string DataUltimaAtualizacao { get; set; }
-        }
-    }
-
-    // Menu de Computadores
-    static void MenuComputadores()
+        // Menu de Computadores
+        static void MenuComputadores()
         {
             int opcao;
             do
@@ -798,7 +756,6 @@ namespace SistemaGerenciamento
             }
         }
 
-
         // Métodos de Carregamento e Salvamento de Dados
         static void CarregarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
         {
@@ -862,5 +819,4 @@ namespace SistemaGerenciamento
         public int Quantidade { get; set; }
         public DateTime DataVenda { get; set; }
     }
-
 }
