@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Threading;
 
 namespace SistemaGerenciamento
 {
@@ -34,54 +33,62 @@ namespace SistemaGerenciamento
             int opcao;
             do
             {
-                // Limpa a tela
                 Console.Clear();
 
-                // Atualiza a hora e data do sistema em tempo real
-                string horaAtual = DateTime.Now.ToString("HH:mm:ss");
-                string dataAtual = DateTime.Now.ToString("dd/MM/yyyy");
+                // Define a cor do texto como ciano para o cabeçalho
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║                SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                   ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
-                // Cabeçalho do sistema com hora e data atualizadas
-                Console.WriteLine("===================================================================================================");
-                Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ============");
-                Console.WriteLine("===================================================================================================");
-                Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==============");
-                Console.WriteLine($"========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: {config.DataUltimaAtualizacao,-30} ==============");
-                Console.WriteLine($"========= VERSÃO DO SISTEMA: {config.Versao,-42} ==============");
-                Console.WriteLine($"========= HORA E DATA DE ACESSO: {horaAtual,-19} DE {dataAtual,-14} ==============");
-                Console.WriteLine($"========= HORA: {horaAtual,-43} ==============");
-                Console.WriteLine($"========= DATA: {dataAtual,-43} ==============");
-                Console.WriteLine("===================================================================================================");
-                Console.WriteLine();
-                Console.WriteLine("===================================================================================================");
-                Console.WriteLine("=================================== MENU PRINCIPAL ================================================");
-                Console.WriteLine("===================================================================================================");
-                Console.WriteLine("1. Gerenciar Estoque de Computadores");
-                Console.WriteLine("2. Gerenciar Cadastro de Clientes");
-                Console.WriteLine("3. Gerenciar Relatório de Vendas");
-                Console.WriteLine("0. Sair");
+                // Define a cor do texto como branco para o menu
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("║1. Gerenciar Estoque de Computadores                                                           ║");
+                Console.WriteLine("║2. Gerenciar Cadastro de Clientes                                                              ║");
+                Console.WriteLine("║3. Gerenciar Relatório de Vendas                                                               ║");
+                Console.WriteLine("║0. Sair                                                                                        ║");
 
+                // Exibe o autor, versão, data da última atualização e a data/hora atual
+                Console.WriteLine($"║Autor: Renato Resende Monteiro                                                                 ║");
+                Console.WriteLine($"║Data da Última Atualização: {config.DataUltimaAtualizacao,-30}                                     ║");
+                Console.WriteLine($"║Versão do Sistema: {config.Versao,-42}                                  ║");
+                Console.WriteLine($"║Data e Hora de Acesso: {DateTime.Now:dd/MM/yyyy HH:mm}                                                        ║");
+
+                // Define a cor do texto como ciano para o rodapé
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Restaura a cor do texto para branco
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Escolha uma opção: ");
-                opcao = int.Parse(Console.ReadLine());
 
+                // Lê a opção escolhida pelo usuário
+                if (!int.TryParse(Console.ReadLine(), out opcao))
+                {
+                    Console.WriteLine("\nOpção inválida, tente novamente.");
+                    Thread.Sleep(1000); // Aguarda 1 segundo antes de retornar ao menu
+                    continue;
+                }
+
+                // Executa a ação correspondente com base na opção
                 switch (opcao)
                 {
                     case 1:
-                        MenuComputadores();
+                        MenuComputadores();  // Chama o método para gerenciar estoque de computadores
                         break;
                     case 2:
-                        MenuClientes();
+                        MenuClientes();  // Chama o método para gerenciar cadastro de clientes
                         break;
                     case 3:
-                        MenuVendas();
+                        MenuVendas();  // Chama o método para gerenciar relatório de vendas
                         break;
                     case 0:
-                        SalvarDados(caminhoComputadores, caminhoClientes, caminhoVendas);
+                        SalvarDados(caminhoComputadores, caminhoClientes, caminhoVendas);  // Salva os dados antes de sair
                         Console.WriteLine("\nSaindo do programa...");
                         break;
                     default:
                         Console.WriteLine("\nOpção inválida, tente novamente.");
-                        Thread.Sleep(1000); // Aguarda 1 segundo antes de retornar ao menu
+                        Thread.Sleep(1000);  // Aguarda 1 segundo antes de retornar ao menu
                         break;
                 }
             } while (opcao != 0);
@@ -100,11 +107,6 @@ namespace SistemaGerenciamento
             // Implementação para carregar dados dos arquivos JSON
         }
 
-        // Métodos para gerenciamento dos dados
-        static void MenuComputadores() { /* Implementação */ }
-        static void MenuClientes() { /* Implementação */ }
-        static void MenuVendas() { /* Implementação */ }
-
         // Método para salvar dados
         static void SalvarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
         {
@@ -117,51 +119,73 @@ namespace SistemaGerenciamento
             public string Versao { get; set; }
             public string DataUltimaAtualizacao { get; set; }
         }
-    }
 
-    // Menu de Computadores
-    static void MenuComputadores()
+        // Menu de Computadores
+        static void MenuComputadores()
         {
             int opcao;
             do
             {
                 Console.Clear();
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-                Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-                Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-                Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-                Console.WriteLine("========= HORA: 09:22                                                                ==========");
-                Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-                Console.WriteLine("===============================================================================================");
+
+                // Define a cor do texto como ciano para o cabeçalho
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+                Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+                Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+                Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
                 Console.WriteLine();
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("========================= GERENCIAR ESTOQUE DE COMPUTADORES ===================================");
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("1. Adicionar Computador");
-                Console.WriteLine("2. Listar Computadores");
-                Console.WriteLine("3. Atualizar Computador");
-                Console.WriteLine("4. Excluir Computador");
-                Console.WriteLine("0. Voltar");
 
+                // Cabeçalho para o menu de gerenciamento de estoque de computadores
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║                        GERENCIAR ESTOQUE DE COMPUTADORES                                      ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Exibe as opções do menu
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("║1. Adicionar Computador                                                                       ║");
+                Console.WriteLine("║2. Listar Computadores                                                                        ║");
+                Console.WriteLine("║3. Atualizar Computador                                                                       ║");
+                Console.WriteLine("║4. Excluir Computador                                                                         ║");
+                Console.WriteLine("║0. Voltar                                                                                     ║");
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Restaura a cor do texto para branco
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Escolha uma opção: ");
-                opcao = int.Parse(Console.ReadLine());
 
+                // Lê a opção escolhida pelo usuário
+                if (!int.TryParse(Console.ReadLine(), out opcao))
+                {
+                    Console.WriteLine("\nOpção inválida, tente novamente.");
+                    Thread.Sleep(1000); // Aguarda 1 segundo antes de retornar ao menu
+                    continue;
+                }
+
+                // Executa a ação correspondente com base na opção
                 switch (opcao)
                 {
                     case 1:
-                        AdicionarComputador();
+                        AdicionarComputador();  // Chama o método para adicionar um novo computador
                         break;
                     case 2:
-                        ListarComputadores();
+                        ListarComputadores();  // Chama o método para listar os computadores
                         break;
                     case 3:
-                        AtualizarComputador();
+                        AtualizarComputador();  // Chama o método para atualizar um computador
                         break;
                     case 4:
-                        ExcluirComputador();
+                        ExcluirComputador();  // Chama o método para excluir um computador
                         break;
                     case 0:
                         Console.WriteLine("\nVoltando ao menu principal...");
@@ -170,6 +194,7 @@ namespace SistemaGerenciamento
                         Console.WriteLine("\nOpção inválida, tente novamente.");
                         break;
                 }
+
                 Console.WriteLine("\nPressione qualquer tecla para continuar...");
                 Console.ReadKey();
             } while (opcao != 0);
@@ -182,42 +207,65 @@ namespace SistemaGerenciamento
             do
             {
                 Console.Clear();
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-                Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-                Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-                Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-                Console.WriteLine("========= HORA: 09:22                                                                ==========");
-                Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-                Console.WriteLine("===============================================================================================");
+
+                // Define a cor do texto como ciano para o cabeçalho
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Define a cor do texto como branco para o menu e exibe informações sobre o desenvolvedor, data e hora
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+                Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+                Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+                Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
                 Console.WriteLine();
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("============================= GERENCIAR CADASTRO DE CLIENTES ==================================");
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("1. Adicionar Cliente");
-                Console.WriteLine("2. Listar Clientes");
-                Console.WriteLine("3. Atualizar Cliente");
-                Console.WriteLine("4. Excluir Cliente");
-                Console.WriteLine("0. Voltar");
 
+                // Cabeçalho para o menu de gerenciamento de clientes
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║                        GERENCIAR CADASTRO DE CLIENTES                                          ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Exibe as opções do menu
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("║1. Adicionar Cliente                                                                          ║");
+                Console.WriteLine("║2. Listar Clientes                                                                           ║");
+                Console.WriteLine("║3. Atualizar Cliente                                                                         ║");
+                Console.WriteLine("║4. Excluir Cliente                                                                           ║");
+                Console.WriteLine("║0. Voltar                                                                                     ║");
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Restaura a cor do texto para branco
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Escolha uma opção: ");
-                opcao = int.Parse(Console.ReadLine());
 
+                // Lê a opção escolhida pelo usuário
+                if (!int.TryParse(Console.ReadLine(), out opcao))
+                {
+                    Console.WriteLine("\nOpção inválida, tente novamente.");
+                    Thread.Sleep(1000); // Aguarda 1 segundo antes de retornar ao menu
+                    continue;
+                }
+
+                // Executa a ação correspondente com base na opção
                 switch (opcao)
                 {
                     case 1:
-                        AdicionarCliente();
+                        AdicionarCliente();  // Chama o método para adicionar um novo cliente
                         break;
                     case 2:
-                        ListarClientes();
+                        ListarClientes();  // Chama o método para listar os clientes
                         break;
                     case 3:
-                        AtualizarCliente();
+                        AtualizarCliente();  // Chama o método para atualizar um cliente
                         break;
                     case 4:
-                        ExcluirCliente();
+                        ExcluirCliente();  // Chama o método para excluir um cliente
                         break;
                     case 0:
                         Console.WriteLine("\nVoltando ao menu principal...");
@@ -226,6 +274,7 @@ namespace SistemaGerenciamento
                         Console.WriteLine("\nOpção inválida, tente novamente.");
                         break;
                 }
+
                 Console.WriteLine("\nPressione qualquer tecla para continuar...");
                 Console.ReadKey();
             } while (opcao != 0);
@@ -238,42 +287,65 @@ namespace SistemaGerenciamento
             do
             {
                 Console.Clear();
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-                Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-                Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-                Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-                Console.WriteLine("========= HORA: 09:22                                                                ==========");
-                Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-                Console.WriteLine("===============================================================================================");
+
+                // Define a cor do texto como ciano para o cabeçalho
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Define a cor do texto como branco para o menu e exibe informações sobre o desenvolvedor, data e hora
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+                Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+                Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+                Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
                 Console.WriteLine();
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("============================= GERENCIAR RELATÓRIO DE VENDAS ===================================");
-                Console.WriteLine("===============================================================================================");
-                Console.WriteLine("1. Adicionar Venda");
-                Console.WriteLine("2. Listar Vendas");
-                Console.WriteLine("3. Atualizar Venda");
-                Console.WriteLine("4. Excluir Venda");
-                Console.WriteLine("0. Voltar");
 
+                // Cabeçalho para o menu de gerenciamento de vendas
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("║                          GERENCIAR RELATÓRIO DE VENDAS                                        ║");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Exibe as opções do menu
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("║1. Adicionar Venda                                                                            ║");
+                Console.WriteLine("║2. Listar Vendas                                                                              ║");
+                Console.WriteLine("║3. Atualizar Venda                                                                            ║");
+                Console.WriteLine("║4. Excluir Venda                                                                              ║");
+                Console.WriteLine("║0. Voltar                                                                                     ║");
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+                // Restaura a cor do texto para branco
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Escolha uma opção: ");
-                opcao = int.Parse(Console.ReadLine());
 
+                // Lê a opção escolhida pelo usuário
+                if (!int.TryParse(Console.ReadLine(), out opcao))
+                {
+                    Console.WriteLine("\nOpção inválida, tente novamente.");
+                    Thread.Sleep(1000); // Aguarda 1 segundo antes de retornar ao menu
+                    continue;
+                }
+
+                // Executa a ação correspondente com base na opção
                 switch (opcao)
                 {
                     case 1:
-                        AdicionarVenda();
+                        AdicionarVenda();  // Chama o método para adicionar uma nova venda
                         break;
                     case 2:
-                        ListarVendas();
+                        ListarVendas();  // Chama o método para listar as vendas
                         break;
                     case 3:
-                        AtualizarVenda();
+                        AtualizarVenda();  // Chama o método para atualizar uma venda
                         break;
                     case 4:
-                        ExcluirVenda();
+                        ExcluirVenda();  // Chama o método para excluir uma venda
                         break;
                     case 0:
                         Console.WriteLine("\nVoltando ao menu principal...");
@@ -282,6 +354,7 @@ namespace SistemaGerenciamento
                         Console.WriteLine("\nOpção inválida, tente novamente.");
                         break;
                 }
+
                 Console.WriteLine("\nPressione qualquer tecla para continuar...");
                 Console.ReadKey();
             } while (opcao != 0);
@@ -291,20 +364,30 @@ namespace SistemaGerenciamento
         static void AdicionarComputador()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("=============================== ADICIONAR NOVO COMPUTADOR =====================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para adicionar novo computador
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                        ADICIONAR NOVO COMPUTADOR                                              ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Solicita as informações do computador
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o modelo do computador: ");
             string modelo = Console.ReadLine();
             Console.Write("Digite a marca do computador: ");
@@ -314,6 +397,7 @@ namespace SistemaGerenciamento
             Console.Write("Digite a quantidade em estoque: ");
             int quantidade = int.Parse(Console.ReadLine());
 
+            // Adiciona o computador à lista
             var computador = new Computador
             {
                 Id = proximoIdComputador++,
@@ -324,27 +408,48 @@ namespace SistemaGerenciamento
             };
 
             computadores.Add(computador);
-            Console.WriteLine("\nComputador adicionado com sucesso!");
+
+            // Mensagem de sucesso
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Computador adicionado com sucesso!                                                            ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void ListarComputadores()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("================================ LISTA DE COMPUTADORES ========================================");
-            Console.WriteLine("===============================================================================================");
 
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine();
+
+            // Cabeçalho para a listagem de computadores
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                              LISTA DE COMPUTADORES                                             ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Exibe os computadores cadastrados ou uma mensagem informando que não há nenhum computador
+            Console.ForegroundColor = ConsoleColor.White;
             if (computadores.Count == 0)
             {
                 Console.WriteLine("\nNenhum computador cadastrado.");
@@ -356,25 +461,42 @@ namespace SistemaGerenciamento
                     Console.WriteLine($"ID: {computador.Id} - Modelo: {computador.Modelo} - Marca: {computador.Marca} - Preço: {computador.Preco:C} - Quantidade: {computador.Quantidade}");
                 }
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void AtualizarComputador()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("============================== ATUALIZAR DADOS DO COMPUTADOR ==================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para a atualização de dados
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                           ATUALIZAR DADOS DO COMPUTADOR                                        ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a entrada de dados
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o ID do computador a ser atualizado: ");
             int id = int.Parse(Console.ReadLine());
 
@@ -404,25 +526,41 @@ namespace SistemaGerenciamento
             {
                 Console.WriteLine("\nID de computador não encontrado.");
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void ExcluirComputador()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("=================================== EXCLUIR COMPUTADOR ========================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para a exclusão de dados
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                           EXCLUIR COMPUTADOR                                                  ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a entrada de dados
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o ID do computador a ser excluído: ");
             int id = int.Parse(Console.ReadLine());
 
@@ -437,26 +575,42 @@ namespace SistemaGerenciamento
             {
                 Console.WriteLine("\nID de computador não encontrado.");
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         // Métodos de Clientes
         static void AdicionarCliente()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("================================ ADICIONAR NOVO CLIENTE =======================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para adicionar novo cliente
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                            ADICIONAR NOVO CLIENTE                                             ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a entrada de dados
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o nome do cliente: ");
             string nome = Console.ReadLine();
             Console.Write("Digite o e-mail do cliente: ");
@@ -474,25 +628,42 @@ namespace SistemaGerenciamento
 
             clientes.Add(cliente);
             Console.WriteLine("\nCliente adicionado com sucesso!");
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void ListarClientes()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("==================================== LISTA DE CLIENTES ========================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para listar clientes
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                            LISTA DE CLIENTES                                                   ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a listagem
+            Console.ForegroundColor = ConsoleColor.White;
+
             if (clientes.Count == 0)
             {
                 Console.WriteLine("\nNenhum cliente cadastrado.");
@@ -504,25 +675,41 @@ namespace SistemaGerenciamento
                     Console.WriteLine($"ID: {cliente.Id} - Nome: {cliente.Nome} - E-mail: {cliente.Email} - Telefone: {cliente.Telefone}");
                 }
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void AtualizarCliente()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("=============================== ATUALIZAR DADOS DO CLIENTE ====================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para atualizar dados do cliente
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                          ATUALIZAR DADOS DO CLIENTE                                             ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a entrada de dados
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o ID do cliente a ser atualizado: ");
             int id = int.Parse(Console.ReadLine());
 
@@ -548,25 +735,41 @@ namespace SistemaGerenciamento
             {
                 Console.WriteLine("\nID de cliente não encontrado.");
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void ExcluirCliente()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("===================================== EXCLUIR CLIENTE =========================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para excluir cliente
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                               EXCLUIR CLIENTE                                                ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a entrada de dados
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o ID do cliente a ser excluído: ");
             int id = int.Parse(Console.ReadLine());
 
@@ -581,28 +784,47 @@ namespace SistemaGerenciamento
             {
                 Console.WriteLine("\nID de cliente não encontrado.");
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
 
         // Métodos de Vendas
         static void AdicionarVenda()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("================================= ADICIONAR NOVA VENDA ========================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para adicionar nova venda
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                            ADICIONAR NOVA VENDA                                                ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a entrada de dados
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Digite o ID do cliente: ");
-            int clienteId = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int clienteId))
+            {
+                Console.WriteLine("\nID inválido.");
+                return;
+            }
             var cliente = clientes.Find(c => c.Id == clienteId);
 
             if (cliente == null)
@@ -612,7 +834,11 @@ namespace SistemaGerenciamento
             }
 
             Console.Write("Digite o ID do computador: ");
-            int computadorId = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int computadorId))
+            {
+                Console.WriteLine("\nID inválido.");
+                return;
+            }
             var computador = computadores.Find(c => c.Id == computadorId);
 
             if (computador == null)
@@ -622,7 +848,11 @@ namespace SistemaGerenciamento
             }
 
             Console.Write("Digite a quantidade vendida: ");
-            int quantidade = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int quantidade))
+            {
+                Console.WriteLine("\nQuantidade inválida.");
+                return;
+            }
 
             if (quantidade > computador.Quantidade)
             {
@@ -643,25 +873,41 @@ namespace SistemaGerenciamento
 
             vendas.Add(venda);
             Console.WriteLine("\nVenda registrada com sucesso!");
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void ListarVendas()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("==================================== LISTA DE VENDAS ==========================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para listar as vendas
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                              LISTA DE VENDAS                                                  ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para a lista de vendas
+            Console.ForegroundColor = ConsoleColor.White;
             if (vendas.Count == 0)
             {
                 Console.WriteLine("\nNenhuma venda registrada.");
@@ -673,30 +919,51 @@ namespace SistemaGerenciamento
                     var cliente = clientes.Find(c => c.Id == venda.ClienteId);
                     var computador = computadores.Find(c => c.Id == venda.ComputadorId);
 
-                    Console.WriteLine($"ID: {venda.Id} - Cliente: {cliente?.Nome} - Computador: {computador?.Modelo} - Quantidade: {venda.Quantidade} - Data: {venda.DataVenda}");
+                    Console.WriteLine($"ID: {venda.Id} - Cliente: {cliente?.Nome ?? "Desconhecido"} - Computador: {computador?.Modelo ?? "Desconhecido"} - Quantidade: {venda.Quantidade} - Data: {venda.DataVenda}");
                 }
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void AtualizarVenda()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("================================ ATUALIZAR DADOS DA VENDA =====================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para atualizar dados da venda
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                        ATUALIZAR DADOS DA VENDA                                              ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para o conteúdo
+            Console.ForegroundColor = ConsoleColor.White;
+
             Console.Write("Digite o ID da venda a ser atualizada: ");
-            int id = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("\nID inválido.");
+                return;
+            }
 
             var venda = vendas.Find(v => v.Id == id);
 
@@ -725,6 +992,12 @@ namespace SistemaGerenciamento
                     var computador = computadores.Find(c => c.Id == computadorId);
                     if (computador != null)
                     {
+                        var computadorAtual = computadores.Find(c => c.Id == venda.ComputadorId);
+                        if (computadorAtual != null)
+                        {
+                            computadorAtual.Quantidade += venda.Quantidade; // Restaura o estoque do computador antigo
+                        }
+
                         venda.ComputadorId = computador.Id;
                     }
                     else
@@ -739,7 +1012,7 @@ namespace SistemaGerenciamento
                 if (int.TryParse(quantidadeStr, out int quantidade))
                 {
                     var computador = computadores.Find(c => c.Id == venda.ComputadorId);
-                    if (computador != null && quantidade <= computador.Quantidade)
+                    if (computador != null && quantidade <= computador.Quantidade + venda.Quantidade)
                     {
                         computador.Quantidade += venda.Quantidade - quantidade; // Atualiza o estoque
                         venda.Quantidade = quantidade;
@@ -757,27 +1030,48 @@ namespace SistemaGerenciamento
             {
                 Console.WriteLine("\nID de venda não encontrado.");
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
+
 
         static void ExcluirVenda()
         {
             Console.Clear();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CADASTRO DE CLIENTES  ==========");
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("========= DESENVOLVEDOR RESPONSÁVEL: RENATO RESENDE MONTEIRO                         ==========");
-            Console.WriteLine("========= DATA DA ATUALIZAÇÃO DA ÚLTIMA VERSÃO: 18/09/2024                           ==========");
-            Console.WriteLine("========= VERSÃO DO SISTEMA: 1.00                                                    ==========");
-            Console.WriteLine("========= HORA E DATA DE ACESSO: 09:22 DE 18/09/2024                                 ==========");
-            Console.WriteLine("========= HORA: 09:22                                                                ==========");
-            Console.WriteLine("========= DATA: 18/09/2024                                                           ==========");
-            Console.WriteLine("===============================================================================================");
+
+            // Define a cor do texto como ciano para o cabeçalho
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
+            Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
+            Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
+            Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("===============================================================================================");
-            Console.WriteLine("====================================== EXCLUIR VENDA ==========================================");
-            Console.WriteLine("===============================================================================================");
+
+            // Cabeçalho para excluir uma venda
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                           EXCLUIR VENDA                                                        ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            // Define a cor do texto como branco para o conteúdo
+            Console.ForegroundColor = ConsoleColor.White;
+
             Console.Write("Digite o ID da venda a ser excluída: ");
-            int id = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("\nID inválido.");
+                return;
+            }
 
             var venda = vendas.Find(v => v.Id == id);
 
@@ -796,45 +1090,16 @@ namespace SistemaGerenciamento
             {
                 Console.WriteLine("\nID de venda não encontrado.");
             }
+
+            // Restaura a cor do texto para branco
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
 
 
-        // Métodos de Carregamento e Salvamento de Dados
-        static void CarregarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
-        {
-            if (File.Exists(caminhoComputadores))
-            {
-                var json = File.ReadAllText(caminhoComputadores);
-                computadores = JsonSerializer.Deserialize<List<Computador>>(json);
-                proximoIdComputador = computadores.Count > 0 ? computadores[^1].Id + 1 : 1;
-            }
 
-            if (File.Exists(caminhoClientes))
-            {
-                var json = File.ReadAllText(caminhoClientes);
-                clientes = JsonSerializer.Deserialize<List<Cliente>>(json);
-                proximoIdCliente = clientes.Count > 0 ? clientes[^1].Id + 1 : 1;
-            }
 
-            if (File.Exists(caminhoVendas))
-            {
-                var json = File.ReadAllText(caminhoVendas);
-                vendas = JsonSerializer.Deserialize<List<Venda>>(json);
-                proximoIdVenda = vendas.Count > 0 ? vendas[^1].Id + 1 : 1;
-            }
-        }
-
-        static void SalvarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
-        {
-            var jsonComputadores = JsonSerializer.Serialize(computadores, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(caminhoComputadores, jsonComputadores);
-
-            var jsonClientes = JsonSerializer.Serialize(clientes, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(caminhoClientes, jsonClientes);
-
-            var jsonVendas = JsonSerializer.Serialize(vendas, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(caminhoVendas, jsonVendas);
-        }
     }
 
     public class Computador
@@ -862,5 +1127,8 @@ namespace SistemaGerenciamento
         public int Quantidade { get; set; }
         public DateTime DataVenda { get; set; }
     }
-
 }
+
+    
+
+    
