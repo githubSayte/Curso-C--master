@@ -94,34 +94,91 @@ namespace SistemaGerenciamento
             } while (opcao != 0);
         }
 
+        // Método para carregar a configuração
         static Config CarregarConfig(string caminho)
         {
             // Lê o arquivo JSON e desserializa em um objeto Config
-            string json = File.ReadAllText(caminho);
-            return JsonConvert.DeserializeObject<Config>(json);
+            if (File.Exists(caminho))
+            {
+                string json = File.ReadAllText(caminho);
+                return JsonConvert.DeserializeObject<Config>(json);
+            }
+            else
+            {
+                Console.WriteLine($"O arquivo de configuração não foi encontrado: {caminho}");
+                return null;
+            }
         }
 
-        // Método para carregar os dados
+        // Método para carregar dados
         static void CarregarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
         {
-            // Implementação para carregar dados dos arquivos JSON
+            if (File.Exists(caminhoComputadores))
+            {
+                string jsonComputadores = File.ReadAllText(caminhoComputadores);
+                // Desserializa os dados dos computadores
+                var computadores = JsonConvert.DeserializeObject<List<Computador>>(jsonComputadores);
+                Console.WriteLine("Dados dos computadores carregados com sucesso.");
+            }
+            else
+            {
+                Console.WriteLine($"O arquivo de computadores não foi encontrado: {caminhoComputadores}");
+            }
+
+            if (File.Exists(caminhoClientes))
+            {
+                string jsonClientes = File.ReadAllText(caminhoClientes);
+                // Desserializa os dados dos clientes
+                var clientes = JsonConvert.DeserializeObject<List<Cliente>>(jsonClientes);
+                Console.WriteLine("Dados dos clientes carregados com sucesso.");
+            }
+            else
+            {
+                Console.WriteLine($"O arquivo de clientes não foi encontrado: {caminhoClientes}");
+            }
+
+            if (File.Exists(caminhoVendas))
+            {
+                string jsonVendas = File.ReadAllText(caminhoVendas);
+                // Desserializa os dados das vendas
+                var vendas = JsonConvert.DeserializeObject<List<Venda>>(jsonVendas);
+                Console.WriteLine("Dados das vendas carregados com sucesso.");
+            }
+            else
+            {
+                Console.WriteLine($"O arquivo de vendas não foi encontrado: {caminhoVendas}");
+            }
         }
 
         // Método para salvar dados
         static void SalvarDados(string caminhoComputadores, string caminhoClientes, string caminhoVendas)
         {
-            // Implementação para salvar dados nos arquivos JSON
-        }
-
-        // Classe para armazenar as configurações
-        class Config
+            // Exemplo de dados para salvar
+            var computadores = new List<Computador>
         {
-            public string Versao { get; set; }
-            public string DataUltimaAtualizacao { get; set; }
+            new Computador { Id = 1, Marca = "Dell", Modelo = "XPS 15" }
+        };
+            var clientes = new List<Cliente>
+        {
+            new Cliente { Id = 1, Nome = "João Silva", Email = "joao.silva@example.com" }
+        };
+            var vendas = new List<Venda>
+        {
+            new Venda { Id = 1, ComputadorId = 1, ClienteId = 1, DataVenda = DateTime.Now }
+        };
+
+            // Salva os dados no arquivo JSON
+            File.WriteAllText(caminhoComputadores, JsonConvert.SerializeObject(computadores, Formatting.Indented));
+            File.WriteAllText(caminhoClientes, JsonConvert.SerializeObject(clientes, Formatting.Indented));
+            File.WriteAllText(caminhoVendas, JsonConvert.SerializeObject(vendas, Formatting.Indented));
+
+            Console.WriteLine("Dados salvos com sucesso.");
         }
 
-        // Menu de Computadores
-        static void MenuComputadores()
+        
+
+    // Menu de Computadores
+    static void MenuComputadores()
         {
             int opcao;
             do
@@ -139,14 +196,13 @@ namespace SistemaGerenciamento
                 Console.WriteLine($"║ Desenvolvedor Responsável: Renato Resende Monteiro                                           ║");
                 Console.WriteLine($"║ Data da Última Atualização: 18/09/2024                                                       ║");
                 Console.WriteLine($"║ Versão do Sistema: 1.00                                                                      ║");
-                Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                           ║");
+                Console.WriteLine($"║ Hora e Data de Acesso: {DateTime.Now:HH:mm} de {DateTime.Now:dd/MM/yyyy}                                        ║");
                 Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
                 Console.WriteLine();
-
                 // Cabeçalho para o menu de gerenciamento de estoque de computadores
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine("║                        GERENCIAR ESTOQUE DE COMPUTADORES                                      ║");
+                Console.WriteLine("║                        GERENCIAR ESTOQUE DE COMPUTADORES                                       ║");
                 Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
                 // Exibe as opções do menu
@@ -306,7 +362,7 @@ namespace SistemaGerenciamento
                 // Cabeçalho para o menu de gerenciamento de vendas
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine("║                          GERENCIAR RELATÓRIO DE VENDAS                                        ║");
+                Console.WriteLine("║                          GERENCIAR RELATÓRIO DE VENDAS                                         ║");
                 Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
                 // Exibe as opções do menu
@@ -383,7 +439,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para adicionar novo computador
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                        ADICIONAR NOVO COMPUTADOR                                              ║");
+            Console.WriteLine("║                        ADICIONAR NOVO COMPUTADOR                                               ║");
             Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Solicita as informações do computador
@@ -412,8 +468,8 @@ namespace SistemaGerenciamento
             // Mensagem de sucesso
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\n╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║ Computador adicionado com sucesso!                                                            ║");
-            Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+              Console.WriteLine("║ Computador adicionado com sucesso!                                                             ║");
+              Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Restaura a cor do texto para branco
             Console.ForegroundColor = ConsoleColor.White;
@@ -541,7 +597,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -556,7 +612,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para a exclusão de dados
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                           EXCLUIR COMPUTADOR                                                  ║");
+            Console.WriteLine("║                           EXCLUIR COMPUTADOR                                                 ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco para a entrada de dados
@@ -591,7 +647,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -606,7 +662,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para adicionar novo cliente
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                            ADICIONAR NOVO CLIENTE                                             ║");
+            Console.WriteLine("║                            ADICIONAR NOVO CLIENTE                                            ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco para a entrada de dados
@@ -643,7 +699,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -658,7 +714,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para listar clientes
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                            LISTA DE CLIENTES                                                   ║");
+            Console.WriteLine("║                            LISTA DE CLIENTES                                                 ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco para a listagem
@@ -690,7 +746,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -705,7 +761,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para atualizar dados do cliente
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                          ATUALIZAR DADOS DO CLIENTE                                             ║");
+            Console.WriteLine("║                          ATUALIZAR DADOS DO CLIENTE                                          ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco para a entrada de dados
@@ -750,7 +806,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -799,7 +855,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -814,7 +870,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para adicionar nova venda
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                            ADICIONAR NOVA VENDA                                                ║");
+            Console.WriteLine("║                            ADICIONAR NOVA VENDA                                              ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco para a entrada de dados
@@ -888,7 +944,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -903,7 +959,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para listar as vendas
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                              LISTA DE VENDAS                                                  ║");
+            Console.WriteLine("║                              LISTA DE VENDAS                                                 ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco para a lista de vendas
@@ -937,7 +993,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -1045,7 +1101,7 @@ namespace SistemaGerenciamento
             // Define a cor do texto como ciano para o cabeçalho
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                       ║");
+            Console.WriteLine("║            SISTEMA DE GERENCIAMENTO DE VENDAS DE COMPUTADORES E CLIENTES                     ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco e exibe as informações sobre o desenvolvedor, data e hora
@@ -1060,7 +1116,7 @@ namespace SistemaGerenciamento
             // Cabeçalho para excluir uma venda
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("╔══════════════════════════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║                           EXCLUIR VENDA                                                        ║");
+            Console.WriteLine("║                           EXCLUIR VENDA                                                      ║");
             Console.WriteLine("╚══════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             // Define a cor do texto como branco para o conteúdo
